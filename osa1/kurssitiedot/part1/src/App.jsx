@@ -30,15 +30,9 @@ const Header = (props) => {
 const Content = ({ props }) => {
   return (
     <div>
-      <p>
-        {props[0].part} {props[0].exercises}
-      </p>
-      <p>
-        {props[1].part} {props[1].exercises}
-      </p>
-      <p>
-        {props[2].part} {props[2].exercises}
-      </p>
+      <Part props={props[0]} />
+      <Part props={props[1]} />
+      <Part props={props[2]} />
     </div>
 
   )
@@ -50,6 +44,14 @@ const Total = ({ props }) => {
       <p>Number of exercises {props[0].exercises + 
       props[1].exercises + 
       props[2].exercises}</p>
+    </div>
+  )
+}
+
+const Part = ({ props }) => {
+  return (
+    <div>
+      <p>{props.part} {props.exercises}</p>
     </div>
   )
 }
