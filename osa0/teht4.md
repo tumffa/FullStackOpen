@@ -11,7 +11,7 @@ sequenceDiagram
     server->>browser: CSS file
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
     server->>browser: JS file
-        Note over browser,server: JavaScript callback function sends request for json data
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     server->>browser: json data
+    Note over browser,server: JavaScript callback function renders json data
 ```
