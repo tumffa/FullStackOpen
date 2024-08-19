@@ -21,16 +21,24 @@ const App = () => {
     console.log('bad:', bad)
   }
 
-  const total = good + neutral + bad
-  const average = (good - bad) / total
-  const positive = good / total
-
   return (
     <div>
       <Header title="give feedback" />
       <Button props={{ handleClick: giveGood, text: 'good' }} />
       <Button props={{ handleClick: giveNeutral, text: 'neutral' }} />
       <Button props={{ handleClick: giveBad, text: 'bad' }} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
+    </div>
+  )
+}
+
+const Statistics = ({ good, neutral, bad }) => {
+  const total = good + neutral + bad
+  const average = (good - bad) / total
+  const positive = good / total
+
+  return (
+    <div>
       <Header title="statistics" />
       <TotalFeedback text="good" amount={good} />
       <TotalFeedback text="neutral" amount={neutral} />
@@ -39,7 +47,7 @@ const App = () => {
       <TotalFeedback text="average" amount={average} />
       <TotalFeedback text="positive" amount={positive} text2="%" />
     </div>
-  )
+  )  
 }
 
 const Header = ({ title }) => <h1>{title}</h1>
@@ -52,6 +60,6 @@ const Button = ({ props }) => {
   )
 }
 
-const TotalFeedback = ({ text, amount, text2}) => <>{text} {amount} {text2}<br /></>
+const TotalFeedback = ({ text, amount, text2 }) => <>{text} {amount} {text2}<br /></>
 
 export default App
