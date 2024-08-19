@@ -21,6 +21,10 @@ const App = () => {
     console.log('bad:', bad)
   }
 
+  const total = good + neutral + bad
+  const average = (good - bad) / total
+  const positive = good / total
+
   return (
     <div>
       <Header title="give feedback" />
@@ -31,6 +35,9 @@ const App = () => {
       <TotalFeedback text="good" amount={good} />
       <TotalFeedback text="neutral" amount={neutral} />
       <TotalFeedback text="bad" amount={bad} />
+      <TotalFeedback text="all" amount={total} />
+      <TotalFeedback text="average" amount={average} />
+      <TotalFeedback text="positive" amount={positive} text2="%" />
     </div>
   )
 }
@@ -45,6 +52,6 @@ const Button = ({ props }) => {
   )
 }
 
-const TotalFeedback = ({ text, amount }) => <p>{text} {amount}</p>
+const TotalFeedback = ({ text, amount, text2}) => <>{text} {amount} {text2}<br /></>
 
 export default App
