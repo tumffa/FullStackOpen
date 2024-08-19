@@ -48,12 +48,12 @@ const Statistics = ({ good, neutral, bad }) => {
   return (
     <div>
       <Header title="statistics" />
-      <TotalFeedback text="good" amount={good} />
-      <TotalFeedback text="neutral" amount={neutral} />
-      <TotalFeedback text="bad" amount={bad} />
-      <TotalFeedback text="all" amount={total} />
-      <TotalFeedback text="average" amount={average} />
-      <TotalFeedback text="positive" amount={positive} text2="%" />
+      <StatisticLine text="good" value={good} /><br />
+      <StatisticLine text="neutral" value={neutral} /><br />
+      <StatisticLine text="bad" value={bad} /><br />
+      <StatisticLine text="all" value={total} /><br />
+      <StatisticLine text="average" value={average} /><br />
+      <StatisticLine text="positive" value={positive}/> %<br />
     </div>
   )  
 }
@@ -68,6 +68,6 @@ const Button = ({ props }) => {
   )
 }
 
-const TotalFeedback = ({ text, amount, text2 }) => <>{text} {amount} {text2}<br /></>
+const StatisticLine = ({ text, value }) => <>{text} {value}</>
 
 export default App
