@@ -35,7 +35,7 @@ const App = () => {
 const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad
   const average = (good - bad) / total
-  const positive = good / total
+  const positive = 100 * (good / total)
 
   return (
     <div>
