@@ -29,6 +29,17 @@ const App = () => {
     setFilter(event.target.value)
   }
 
+  const handleDelete = (id) => {
+    const person = persons.find(person => person.id === id)
+    if (window.confirm(`Delete ${person.name}?`)) {
+      personService
+        .deletePerson(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
+  }
+
   const addName = (event) => {
     event.preventDefault()
     const personObject = {
@@ -54,50 +65,51 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter 
-        handleFilterChange={handleFilterChange} 
+      <Filter
+        handleFilterChange={handleFilterChange}
         filter={filter}
       />
-      <AddNewPerson 
+      <AddNewPerson
         addName={addName}
         newName={newName}
-        newNumber={newNumber}
         handleNameChange={handleNameChange}
+        newNumber={newNumber}
         handleNumberChange={handleNumberChange}
       />
-      <Numbers persons={persons} filter={filter}/>
+      <Numbers
+        persons={persons}
+        filter={filter}
+        handleDelete={handleDelete}
+      />
     </div>
   )
-
 }
 
-const Filter = (props) => {
+const Filter = ({ handleFilterChange, filter }) => {
   return (
     <div>
       filter shown with
-      <input onChange={props.handleFilterChange}
-      value={props.filter}>
-      </input>
+      <input onChange={handleFilterChange} value={filter} />
     </div>
   )
 }
 
-const AddNewPerson = (props) => {
+const AddNewPerson = ({ addName, newName, handleNameChange, newNumber, handleNumberChange }) => {
   return (
     <div>
       <h2>add a new</h2>
-      <form onSubmit={props.addName}>
+      <form onSubmit={addName}>
         <div>
           name: 
           <input 
-            value={props.newName}
-            onChange={props.handleNameChange}
+            value={newName}
+            onChange={handleNameChange}
           />
           <br />
           number:
           <input 
-            value={props.newNumber}
-            onChange={props.handleNumberChange}
+            value={newNumber}
+            onChange={handleNumberChange}
           />
         </div>
         <div>
@@ -108,20 +120,26 @@ const AddNewPerson = (props) => {
   )
 }
 
-const Numbers = ({ persons, filter }) => {
+const Numbers = ({ persons, filter, handleDelete }) => {
   const filteredPersons = persons.filter(person =>
     person.name.toLowerCase().includes(filter.toLowerCase()))
   return (
     <div>
       <h2>Numbers</h2>
-      {filteredPersons.map((person, index) => 
-      <Person key={index} name={person.name} 
-      number={person.number}/>
-      )}
+      {filteredPersons.map((person) =>
+        <div key={person.id}>
+          <Person 
+            name={person.name} 
+            number={person.number}
+          />
+          <button onClick={() => handleDelete(person.id)}>Delete</button>
+        </div>
+        )
+      }
     </div>
   )
 }
 
-const Person = ({ name, number }) => <p>{name} {number}</p>
+const Person = ({ name, number }) => <>{name} {number}</>
 
 export default App
