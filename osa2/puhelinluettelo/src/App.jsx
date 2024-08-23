@@ -7,6 +7,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [resultNotification, setResultNotification] = useState([null, true])
 
   useEffect(() => {
     personService
@@ -67,6 +68,11 @@ const App = () => {
             setPersons(persons.concat(returnedPerson))
           }
         )
+      setResultNotification([`Added ${newName}`, true])
+      setTimeout(() => {
+        setResultNotification([null, true])
+      }
+      , 5000)
     }
     setNewName('')
     setNewNumber('')
@@ -75,6 +81,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={resultNotification[0]} error={resultNotification[1]} />
       <Filter
         handleFilterChange={handleFilterChange}
         filter={filter}
@@ -91,6 +98,28 @@ const App = () => {
         filter={filter}
         handleDelete={handleDelete}
       />
+    </div>
+  )
+}
+
+const Notification = ({ message, error }) => {
+  if (message === null) {
+    return null
+  }
+  
+  const notificationStyle = {
+    color: error ? 'green' : 'red',
+    background: 'lightgrey',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10
+  }
+
+  return (
+    <div style={notificationStyle}>
+      {message}
     </div>
   )
 }
