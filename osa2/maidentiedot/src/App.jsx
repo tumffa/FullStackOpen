@@ -37,7 +37,7 @@ const App = () => {
   return (
     <div>
       <Search query={query} handleQueryChange={handleQueryChange} />
-      <CountriesList shownCountries={shownCountries} />
+      <CountriesList shownCountries={shownCountries} setShownCountries={setShownCountries} />
     </div>
   )
 }
@@ -50,13 +50,18 @@ const Search = ({ query, handleQueryChange }) => {
   )
 }
 
-const CountriesList = ({ shownCountries }) => {
+const CountriesList = ({ shownCountries, setShownCountries }) => {
   return (
     <div>
       {shownCountries.length > 10
         ? <p>Too many matches, specify another filter</p>
         : shownCountries.length > 1
-          ? shownCountries.map(country => <p key={country.name}>{country.name}</p>)
+          ? shownCountries.map(country => 
+          <p 
+            key={country.name}>{country.name} 
+            <button onClick={() => setShownCountries([country])}>show</button>
+          </p>
+          )
           : shownCountries.length === 1
             ? <Country country={shownCountries[0]} />
             : null
