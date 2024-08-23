@@ -59,6 +59,15 @@ const App = () => {
               person.id !== personId ? person : returnedPerson))
             }
           )
+          .catch(error => {
+            setResultNotification(
+              [`Information of ${newName} has already been removed from the server`, false])
+            setTimeout(() => {
+              setResultNotification([null, true])
+            }
+            , 5000)
+            setPersons(persons.filter(person => person.id !== personId))
+          })
          }
         }
     else {
