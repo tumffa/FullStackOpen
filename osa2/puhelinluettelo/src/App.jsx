@@ -77,6 +77,15 @@ const App = () => {
             setPersons(persons.concat(returnedPerson))
           }
         )
+        .catch(error => {
+          console.log(`Error: ${error.response.data.error}`)
+          setResultNotification([error.response.data.error, false])
+          setTimeout(() => {
+            setResultNotification([null, true])
+          }
+          , 5000)
+          }
+        )
       setResultNotification([`Added ${newName}`, true])
       setTimeout(() => {
         setResultNotification([null, true])
