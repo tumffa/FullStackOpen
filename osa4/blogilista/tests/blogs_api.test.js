@@ -78,7 +78,6 @@ test('blog likes is 0 if not provided', async () => {
     .expect(201)
     .expect('Content-Type', /application\/json/)
 
-  console.log('Response Body:', response.body)
   const blog = response.body
   assert.strictEqual(blog.likes, 0)
 })
@@ -93,6 +92,39 @@ test('blog must have title and url', async () => {
     .send(newBlog)
   
   assert.strictEqual(response.status, 400)
+})
+
+test ('a blog can be deleted with id', async () => {
+  const response = await api.get('/api/blogs')
+  const blog = response.body[0]
+
+  await api.delete(`/api/blogs/${blog.id}`)
+    .expect(204)
+
+  const blogs = await api.get('/api/blogs')
+  assert.strictEqual(blogs.body.length, initialBlogs.length - 1)
+})
+
+test('a blog can be changed with id', async () => {
+  const response = await api.get('/api/blogs')
+  const blog = response.body[0]
+
+  const updatedBlog = {
+    ...blog,
+    title: 'Updated blog',
+    author: 'Updated author',
+    likes: 100
+  }
+
+  await api.put(`/api/blogs/${blog.id}`)
+    .send(updatedBlog)
+    .expect(200)
+
+  const blogs = await api.get('/api/blogs')
+  const newblog = blogs.body.find(b => b.id === blog.id)
+  assert.strictEqual(newblog.title, updatedBlog.title)
+  assert.strictEqual(newblog.author, updatedBlog.author)
+  assert.strictEqual(newblog.likes, updatedBlog.likes)
 })
 
 after(async () => {
