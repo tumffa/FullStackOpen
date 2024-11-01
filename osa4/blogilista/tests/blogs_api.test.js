@@ -36,9 +36,16 @@ test('blogs are returned as json', async () => {
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
-  const blogs = response.body.map(({ __v, _id, ...rest }) => rest)
+  const blogs = response.body.map(({ id, ...rest }) => rest)
   
   assert.deepStrictEqual(blogs, initialBlogs)
+})
+
+test('blog has string id value', async () => {
+  const response = await api.get('/api/blogs')
+  const blog = response.body[0]
+  assert.ok(blog.id)
+  assert.strictEqual(typeof blog.id, 'string')
 })
 
 after(async () => {
