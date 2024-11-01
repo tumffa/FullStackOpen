@@ -83,6 +83,18 @@ test('blog likes is 0 if not provided', async () => {
   assert.strictEqual(blog.likes, 0)
 })
 
+test('blog must have title and url', async () => {
+  const newBlog = {
+    author: 'Author',
+    likes: 0
+  }
+
+  response = await api.post('/api/blogs')
+    .send(newBlog)
+  
+  assert.strictEqual(response.status, 400)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
