@@ -41,11 +41,29 @@ test('blogs are returned as json', async () => {
   assert.deepStrictEqual(blogs, initialBlogs)
 })
 
-test('blog has string id value', async () => {
+test('returned blog has string id value', async () => {
   const response = await api.get('/api/blogs')
   const blog = response.body[0]
   assert.ok(blog.id)
   assert.strictEqual(typeof blog.id, 'string')
+})
+
+test('a new blog can be added', async () => {
+  const newBlog = {
+    title: 'New blog',
+    author: 'Author',
+    url: 'https://newblog.com/',
+    likes: 0
+  }
+
+  await api.post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  const blogs = response.body
+  assert.strictEqual(blogs.length, initialBlogs.length + 1)
 })
 
 after(async () => {
