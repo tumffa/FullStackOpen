@@ -1,9 +1,7 @@
-# Add a new blog
-POST http://localhost:3003/api/users
+post http://localhost:3003/api/login
 Content-Type: application/json
 
 {
   "username": "tuomas",
-  "name": "tuomas",
   "password": "123"
 }
