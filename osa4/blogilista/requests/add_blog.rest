@@ -1,6 +1,7 @@
 # Add a new blog
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InR1b21hcyIsImlkIjoiNjcyNjBhYWVlYmIxMzIzNGM5OGEzN2RjIiwiaWF0IjoxNzMwNTQ2OTU1fQ.IpLIwjGH_h6gOwLu_iaIQRZF7qZfSLSk5zde7RDfdT4
 
 {
   "title": "New Blog Post",
