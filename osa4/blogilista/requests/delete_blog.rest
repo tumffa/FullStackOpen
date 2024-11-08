@@ -1,0 +1,4 @@
+# Add a new blog
+DELETE http://localhost:3003/api/blogs/67260874ba59c211f18c4ad6
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InR1b21hcyIsImlkIjoiNjcyNjBhYWVlYmIxMzIzNGM5OGEzN2RjIiwiaWF0IjoxNzMxMDY0ODEyfQ.0w4mNw-3LDWr7AyPOQIR_9tS7A8azb2p28pzffMreR0
