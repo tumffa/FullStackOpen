@@ -1,4 +1,4 @@
-const { test, after } = require('node:test')
+const { test, after, beforeEach} = require('node:test')
 const assert = require('node:assert')
 const supertest = require('supertest')
 const User = require('../models/user')
