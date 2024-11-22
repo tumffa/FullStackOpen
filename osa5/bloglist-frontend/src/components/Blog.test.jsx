@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
+import { test } from 'vitest'
 
 const blog = {
   title: 'Component testing is done with react-testing-library',
@@ -68,7 +69,6 @@ test('handleLike is called twice when like is clicked twice', async () => {
   await user.click(viewButton)
 
   const likeButton = container.querySelector('#like-button')
-  screen.debug()
   await user.click(likeButton)
   await user.click(likeButton)
 
