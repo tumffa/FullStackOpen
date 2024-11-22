@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import AddBlogForm from './components/AddBlogForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -13,6 +14,8 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
   const [resultNotification, setResultNotification] = useState([null, true])
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -67,6 +70,7 @@ const App = () => {
       const blog = await blogService.create(newBlog)
       setBlogs(blogs.concat(blog))
       setResultNotification([`a new blog ${blog.title} by ${blog.author} added`, true])
+      blogFormRef.current.toggleVisibility()
       resetNotification()
     }
     catch (exception) {
@@ -103,11 +107,13 @@ const App = () => {
         <h2>blogs</h2>
         <Notification message={resultNotification[0]} error={resultNotification[1]} />
         <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
-        <AddBlogForm 
-          handleAddBlog={handleAddBlog}
-          newBlog={newBlog} 
-          setNewBlog={setNewBlog} 
-        />
+        <Togglable buttonLabel='new blog' ref={blogFormRef}>
+          <AddBlogForm 
+            handleAddBlog={handleAddBlog}
+            newBlog={newBlog} 
+            setNewBlog={setNewBlog} 
+          />
+        </Togglable>
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
         )}
