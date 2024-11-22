@@ -49,7 +49,7 @@ const AddBlogForm = ({ handleAddBlog }) => {
             id="url-input"
           />
         </div>
-        <button type="submit">create</button>
+        <button type="submit" id="submit-form-button">create</button>
       </form>
     </div>
   )
