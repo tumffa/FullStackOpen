@@ -61,7 +61,7 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
-    setResultNotification([`logged out`, true])
+    setResultNotification(['logged out', true])
     resetNotification()
   }
 
@@ -84,12 +84,12 @@ const App = () => {
   }
 
   const handleLike = async (blog) => {
-    const newBlog = { 
-      "user": blog.user.id,
-      "likes": blog.likes + 1,
-      "author": blog.author,
-      "title": blog.title,
-      "url": blog.url
+    const newBlog = {
+      'user': blog.user.id,
+      'likes': blog.likes + 1,
+      'author': blog.author,
+      'title': blog.title,
+      'url': blog.url
     }
     try {
       const updatedBlog = await blogService.update(blog.id, newBlog)
@@ -131,12 +131,12 @@ const App = () => {
       <div>
         <h2>Log in to application</h2>
         <Notification message={resultNotification[0]} error={resultNotification[1]} />
-        <LoginForm 
-          handleLogin={handleLogin} 
-          username={username} 
-          setUsername={setUsername} 
-          password={password} 
-          setPassword={setPassword} 
+        <LoginForm
+          handleLogin={handleLogin}
+          username={username}
+          setUsername={setUsername}
+          password={password}
+          setPassword={setPassword}
         />
       </div>
     )
@@ -150,11 +150,11 @@ const App = () => {
           <AddBlogForm handleAddBlog={handleAddBlog} />
         </Togglable>
         {blogs.map(blog =>
-          <Blog 
-            key={blog.id} 
-            blog={blog} 
-            handleLike={() => handleLike(blog)} 
-            handleDelete={() => handleDeleteBlog(blog)} 
+          <Blog
+            key={blog.id}
+            blog={blog}
+            handleLike={() => handleLike(blog)}
+            handleDelete={() => handleDeleteBlog(blog)}
             user={user} />
         )}
       </div>
