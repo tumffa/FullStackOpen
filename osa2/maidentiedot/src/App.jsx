@@ -71,16 +71,40 @@ const CountriesList = ({ shownCountries, setShownCountries }) => {
 }
 
 const Country = ({ country }) => {
+  const [weather, setWeather] = useState(null)
+  const api_key = import.meta.env.VITE_WEATHER_API
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&appid=${api_key}&units=metric`)
+        const data = await response.json()
+        setWeather(data)
+      } catch (error) {
+        console.error('Error fetching weather data:', error)
+      }
+    }
+    fetchWeather()
+  }, [country.capital, api_key])
+
   return (
     <div>
       <h1>{country.name}</h1>
       capital {country.capital}
-      <br/>area {country.area}
+      <br />area {country.area}
       <h2>languages</h2>
       <ul>
         {country.languages.map(language => <li key={language}>{language}</li>)}
       </ul>
-      <img src={country.flag} width="100" />
+      <img src={country.flag} width="100" alt={`Flag of ${country.name}`} />
+      {weather && (
+        <div>
+          <h2>Weather in {country.capital}</h2>
+          <p>temperature: {weather.main.temp} Celcius</p>
+          <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} />
+          <p>wind: {weather.wind.speed} m/s</p>
+        </div>
+      )}
     </div>
   )
 }
