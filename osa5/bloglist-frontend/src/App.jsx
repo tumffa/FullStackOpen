@@ -17,9 +17,10 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
+    blogService.getAll().then(blogs => {
+      const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
+      setBlogs(sortedBlogs)
+    })
   }, [])
 
   useEffect(() => {
@@ -67,7 +68,8 @@ const App = () => {
   const handleAddBlog = async (newBlog) => {
     try {
       const addedBlog = await blogService.create(newBlog)
-      setBlogs(blogs.concat(addedBlog))
+      const updatedBlogs = blogs.concat(addedBlog).sort((a, b) => b.likes - a.likes)
+      setBlogs(updatedBlogs)
       setResultNotification([`a new blog ${addedBlog.title} by ${addedBlog.author} added`, true])
       setTimeout(() => {
         setResultNotification([null, true])
@@ -91,7 +93,8 @@ const App = () => {
     }
     try {
       const updatedBlog = await blogService.update(blog.id, newBlog)
-      setBlogs(blogs.map(b => b.id !== updatedBlog.id ? b : updatedBlog))
+      const updatedBlogs = blogs.map(b => b.id !== updatedBlog.id ? b : updatedBlog).sort((a, b) => b.likes - a.likes)
+      setBlogs(updatedBlogs)
     } catch (exception) {
       console.log('Error updating blog:', exception)
       setResultNotification(['Error updating blog', false])
