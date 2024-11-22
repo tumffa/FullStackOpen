@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
-const AddBlogForm = ({ handleAddBlog, newBlog, setNewBlog }) => {
+const AddBlogForm = ({ handleAddBlog }) => {
+  const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
 
   const handleChange = (event) => {
     const { name, value } = event.target
