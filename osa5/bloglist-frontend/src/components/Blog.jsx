@@ -16,12 +16,12 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
     <div style={blogStyle}>
       <div>
         {blog.title} {blog.author}
-        <button onClick={() => setVisible(!visible)}>{visible ? 'hide' : 'view'}</button>
+        <button onClick={() => setVisible(!visible)} id="view-button">{visible ? 'hide' : 'view'} </button>
       </div>
-      <div style={{ display: visible ? '' : 'none' }}>
+      <div style={{ display: visible ? '' : 'none' }} id="blog-details">
         <div>{blog.url}</div>
         <div>
-          likes {blog.likes} <button onClick={handleLike}>like</button>
+          likes {blog.likes} <button onClick={handleLike} id="like-button">like</button>
         </div>
         {blog.user && blog.user.username && (
           <div>{blog.user.username}</div>
