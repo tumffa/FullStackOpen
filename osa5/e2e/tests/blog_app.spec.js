@@ -1,8 +1,9 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
+const { login } = require('./helper')
 
-describe('Note app', () => {
+describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
-    await request.post('http:localhost:3003/api/testing/reset')
+    await request.post('http://localhost:3003/api/testing/reset')
     await request.post('http://localhost:3003/api/users', {
       data: {
         name: 'Matti Luukkainen',
@@ -20,5 +21,17 @@ describe('Note app', () => {
     await expect(page.getByTestId('username-input')).toBeVisible()
     await expect(page.getByTestId('password-input')).toBeVisible()
     await expect(page.getByTestId('login-submit-button')).toBeVisible()
+  })
+
+  describe('Login', () => {
+    test('succeeds with correct credentials', async ({ page }) => {
+      await login(page, 'mluukkai', 'salainen')
+      await expect(page.getByText('Matti Luukkainen logged in')).toBeVisible()
+    })
+
+    test('fails with wrong credentials', async ({ page }) => {
+      await login(page, 'mluukkai', 'wrong password')
+      await expect(page.getByText('wrong username or password')).toBeVisible()
+    })
   })
 })
