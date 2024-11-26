@@ -11,6 +11,13 @@ describe('Blog app', () => {
         password: 'salainen'
       }
     })
+    await request.post('http://localhost:3003/api/users', {
+      data: {
+        name: 'Test User',
+        username: 'testuser',
+        password: 'testpassword'
+      }
+    })
 
     await page.goto('http://localhost:5173')
   })
@@ -71,6 +78,18 @@ describe('Blog app', () => {
       await page.getByTestId('submit-form-button').click()
       await page.getByTestId('remove-button').click()
       await expect(page.getByText('Blog test title by test author removed')).toBeVisible()
+    })
+
+    test('remove button is only shown if user created the blog', async ({ page }) => {
+      await page.getByRole('button', { name: 'new blog' }).click()
+      await page.waitForSelector('[data-testid="title-input"]', { state: 'visible' })
+      await page.getByTestId('title-input').fill('test title')
+      await page.getByTestId('author-input').fill('test author')
+      await page.getByTestId('url-input').fill('test url')
+      await page.getByTestId('submit-form-button').click()
+      await page.getByTestId('logout-button').click()
+      await login(page, 'testuser', 'testpassword')
+      await expect(page.getByTestId('remove-button')).not.toBeVisible()
     })
   })
 })

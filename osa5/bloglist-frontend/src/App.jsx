@@ -143,7 +143,7 @@ const App = () => {
       <div>
         <h2>blogs</h2>
         <Notification message={resultNotification[0]} error={resultNotification[1]} />
-        <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
+        <p>{user.name} logged in <button onClick={handleLogout} data-testid="logout-button">logout</button></p>
         <Togglable buttonLabel="new blog" ref={blogFormRef} data-testid="create-new-blog-button">
           <AddBlogForm handleAddBlog={handleAddBlog} />
         </Togglable>
