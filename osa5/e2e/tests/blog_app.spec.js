@@ -61,5 +61,16 @@ describe('Blog app', () => {
       await page.getByRole('button', { name: 'like' }).click()
       await expect(page.getByText('likes 1')).toBeVisible()
     })
+
+    test('a blog can be deleted', async ({ page }) => {
+      await page.getByRole('button', { name: 'new blog' }).click()
+      await page.waitForSelector('[data-testid="title-input"]', { state: 'visible' })
+      await page.getByTestId('title-input').fill('test title')
+      await page.getByTestId('author-input').fill('test author')
+      await page.getByTestId('url-input').fill('test url')
+      await page.getByTestId('submit-form-button').click()
+      await page.getByTestId('remove-button').click()
+      await expect(page.getByText('Blog test title by test author removed')).toBeVisible()
+    })
   })
 })

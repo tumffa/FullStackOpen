@@ -111,18 +111,16 @@ const App = () => {
   }
 
   const handleDeleteBlog = async (blog) => {
-    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      try {
-        await blogService.remove(blog.id)
-        const updatedBlogs = blogs.filter(b => b.id !== blog.id)
-        setBlogs(updatedBlogs)
-        setResultNotification([`Blog ${blog.title} by ${blog.author} removed`, true])
-        resetNotification()
-      } catch (exception) {
-        console.log('Error deleting blog:', exception)
-        setResultNotification(['Error deleting blog', false])
-        resetNotification()
-      }
+    try {
+      await blogService.remove(blog.id)
+      const updatedBlogs = blogs.filter(b => b.id !== blog.id)
+      setBlogs(updatedBlogs)
+      setResultNotification([`Blog ${blog.title} by ${blog.author} removed`, true])
+      resetNotification()
+    } catch (exception) {
+      console.log('Error deleting blog:', exception)
+      setResultNotification(['Error deleting blog', false])
+      resetNotification()
     }
   }
 
@@ -130,7 +128,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Notification message={resultNotification[0]} error={resultNotification[1]} />
+        <Notification message={resultNotification[0]} error={resultNotification[1]} data-testid="notification"/>
         <LoginForm
           handleLogin={handleLogin}
           username={username}

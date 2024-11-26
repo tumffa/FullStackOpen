@@ -29,7 +29,7 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
       </div>
       <div>
         {user && blog.user && blog.user.username === user.username && (
-          <button onClick={handleDelete}>remove</button>
+          <button onClick={handleDelete} data-testid="remove-button">remove</button>
         )}
       </div>
     </div>
