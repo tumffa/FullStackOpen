@@ -1,19 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const voteAnecdote = (id) => {
-  return {
-    type: 'VOTE',
-    payload: { id }
-  }
-}
-
-export const newAnecdote = (content) => {
-  return {
-    type: 'NEW',
-    payload: { content }
-  }
-}
-
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -21,7 +7,7 @@ const anecdotesAtStart = [
   'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
   'Premature optimization is the root of all evil.',
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-]
+] 
 
 const getId = () => (100000 * Math.random()).toFixed(0)
 
@@ -39,24 +25,21 @@ const sortAnecdotes = (anecdotes) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
-const anecdoteReducer = (state = initialState, action) => {
-  console.log('state now: ', state)
-  console.log('action', action)
-
-  switch(action.type) {
-    case 'VOTE':
-      const id = action.payload.id
+const anecdoteSlice = createSlice({
+  name: 'anecdotes',
+  initialState,
+  reducers: {
+    voteAnecdote(state, action) {
+      const id = action.payload
       const votedAnecdote = state.find(a => a.id === id)
-      const changedAnecdote = {
-        ...votedAnecdote,
-        votes: votedAnecdote.votes + 1
-      }
-      return sortAnecdotes(state.map(a => a.id !== id ? a : changedAnecdote))
-    case 'NEW':
-      return sortAnecdotes([...state, asObject(action.payload.content)])
-    default:
-      return state
+      votedAnecdote.votes++
+      return sortAnecdotes(state)
+    },
+    newAnecdote(state, action) {
+      return sortAnecdotes([...state, asObject(action.payload)])
+    }
   }
-}
+})
 
-export default anecdoteReducer
+export const { voteAnecdote, newAnecdote } = anecdoteSlice.actions
+export default anecdoteSlice.reducer
