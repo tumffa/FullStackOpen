@@ -14,6 +14,12 @@ const AnecdoteForm = () => {
         notificationDispatch({ type: 'RESET' })
       }, 5000)
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
+    },
+    onError: (error) => {
+      notificationDispatch({ type: 'SET', value: error.response.data.error })
+      setTimeout(() => {
+        notificationDispatch({ type: 'RESET' })
+      }, 5000)
     }
   })
 
